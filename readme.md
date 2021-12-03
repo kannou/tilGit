@@ -169,20 +169,42 @@ rev.mainA2の変更もrev.develop1の変更も、どちらも採用したい場�
 プロジェクトの進展 ----------------------------------->
 ```
 
-(merge以前に)rev.main1に対して行われた更新は、rev.main2、rev.dev1、rev.dev2の3つ。この3つの更新をひとつにまとめるような更新を行うrev.main3を、mainブランチとして`commit`し、更にdevelopブランチは変更しないというのが`merge`である。
+(merge以前の段階で)rev.main1に対して行われた更新は、rev.main2、rev.dev1、rev.dev2の3つ。この3つの更新が矛盾しないようにひとつにまとめるような更新を行うrev.main3を、mainブランチとして`commit`し、更にdevelopブランチは変更しないというのが`merge`である。
 
 ```sh
 $ git merge <取り込みたいブランチ名>
 ```
 
 ### rebase
-### pull request(merge request)
+2手に分かれているブランチを1つにまとめる方法のもうひとつが`rebase`。\
+これは、現在のブランチを他のブランチに先頭に持ってくる（現在のブランチの根っこを変更する：re-base）作業となる。
+```
+[rev.main1] --> [rev.main2] # main
+         \
+          \-> [rev.dev1] --> [rev.dev2] # develop
+
+プロジェクトの進展 ----------------------------------->
+```
+上図でdevelopブランチをmainブランチに`rebase`すると、以下のようになる。
+```
+[rev.main1] --> [rev.main2] # main
+                         \
+                          \--> [rev.dev1] --> [rev.dev2] # develop
+
+プロジェクトの進展 ----------------------------------->
+```
+
+（rebase以前の段階で）rev.main1に対して行われた更新は、rev.main2、rev.dev1、rev.dev2の3つ。この3つの更新が矛盾しないように、rev.main2に対してrev.dev1、rev.dev2を`commit`し、これを新たにdevelopブランチとするのが`rebase`である。\
+`rebase`の注意点として、リモートに`push`されているブランチで行うべきでない、というものがある。詳細は[rebaseを行うべきでないケース](branch.md#rebaseを行うべきでないケース)を参照。\
+\
+`merge`、`rebase`はどちらも2つのブランチ上のリビジョンを矛盾なくまとめるということが要求される。もともと各リビジョン間に矛盾がないのならすんなり`merge`、`rebase`できるのだが、矛盾がある場合には手動でリビジョンに手を加える必要がある。詳細は[コンフリクト](branch.md#コンフリクト)を参照。
 
 ## コミットのやり直し
 ### reset
 ### revert
 
 ## 便利機能
+### log
 ### tag
 ### stash
 
