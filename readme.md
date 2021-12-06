@@ -235,6 +235,16 @@ $ git reset [--soft|--hard|--mixed] <戻すリビジョンのハッシュ値>
 ```
 
 ### revert
+`revert`は`commit`をなかったことにするのではなく、特定のリビジョンの更新内容を打ち消すようなリビジョンを`commit`する。
+```
+[rev.main1] --> [rev.main2] --> [revert:rev.main2] # main
+```
+
+例えばrev.main2でfile2.txtにhogehogeという行を追加しているなら、revert:rev.main2というリビジョンではfile2.txtからhogehogeという行を削除するような更新が行われる。
+
+```sh
+$ git revert <打ち消すリビジョンのハッシュ値>
+```
 
 ## 便利機能
 ### log
